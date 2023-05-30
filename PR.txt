@@ -1,0 +1,54 @@
+1.1
+    Alterações no dataset- "ID" para "_id"
+    mongoimport -d plantas -c plantas --file plantas.json --jsonArray
+    29617 import successfully
+
+1.2 
+        mongosh
+        show dbs
+        use plantas
+
+        1- db.plantas.count() - 29617
+        2- db.plantas.count({"Freguesia": "São Domingos de Rana"}) - 5903
+        3- db.plantas.distinct("Freguesia") 
+            [
+                '',
+                'Abóboda',
+                'Alcabideche',
+                'São Domingos de Rana',
+                'U.F. Carcavelos e Parede',
+                'U.F. Cascais e Estoril'
+            ]
+        4- db.plantas.aggregate([{$group: {_id:"$Freguesia", count: {$sum: 1}}}])
+            [
+                { _id: '', count: 26 },
+                { _id: 'Alcabideche', count: 4034 },
+                { _id: 'São Domingos de Rana', count: 5903 },
+                { _id: 'U.F. Carcavelos e Parede', count: 7629 },
+                { _id: 'Abóboda', count: 2 },
+                { _id: 'U.F. Cascais e Estoril', count: 12023 }
+            ]
+        5- db.plantas.aggregate([{$group: {_id:"$Espécie", count: {$sum: 1}}}])
+            [
+                { _id: 'espinheiro da virginia', count: 93 },
+                { _id: 'melaleuca', count: 1 },
+                { _id: 'pereira', count: 56 },
+                { _id: 'platano bastardo', count: 707 },
+                { _id: 'amieiro', count: 35 },
+                { _id: 'laranjeira azeda', count: 7 },
+                { _id: 'figueira asiatica', count: 1 },
+                { _id: 'ficus benjamina', count: 37 },
+                { _id: 'cedro do buçaco', count: 38 },
+                { _id: 'cipreste de monterey', count: 33 },
+                { _id: 'Borracheira', count: 33 },
+                { _id: 'ameixoeira de jardim', count: 1015 },
+                { _id: 'pinheiro bravo', count: 20 },
+                { _id: 'São Domingos de Rana', count: 2 },
+                { _id: 'planta do natal', count: 2 },
+                { _id: 'washingtonia robusta', count: 3 },
+                { _id: 'carvalho hibrido', count: 3 },
+                { _id: 'eucalipto', count: 174 },
+                { _id: 'catalpa bola', count: 66 },
+                { _id: 'Palmeira', count: 46 }
+                ]
+
